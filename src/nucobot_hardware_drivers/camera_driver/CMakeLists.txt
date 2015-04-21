@@ -5,17 +5,20 @@ set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 set(CMAKE_BUILD_TYPE Release)
 
 find_package(catkin REQUIRED COMPONENTS cv_bridge image_transport geometry_msgs
+                                        pcl_conversions pcl_ros
                                         sensor_msgs std_msgs roscpp tf)
-find_package(OpenCV 3.0 REQUIRED)
-
-
+find_package(OpenCV REQUIRED)
 catkin_package()
 
 include_directories(${catkin_INCLUDE_DIRS} 
                     ${OpenCV_INCLUDE_DIRS})
 
+link_directories(${PCL_LIBRARY_DIRS})
+add_definitions(${PCL_DEFINITIONS})
+
 add_executable(camera_driver camera_driver.cpp)
 target_link_libraries(camera_driver ${catkin_LIBRARIES} 
-                                    ${OpenCV_LIBS})
+                                    ${OpenCV_LIBS}
+                                    ${PCL_LIBRARIES})
 
 
